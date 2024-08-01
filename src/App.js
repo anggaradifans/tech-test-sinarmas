@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./styles.css";
 
-function App() {
+export default function App() {
+  const [number, setNumber] = useState("");
+  const [result, setResult] = useState(0);
+
+  function handleInput(event) {
+    // Filter out non-digit characters
+    const filteredValue = event.target.value.replace(/[^0-9]/g, "");
+    setNumber(filteredValue);
+  }
+
+  function handleSubmit() {
+    if (number === "") {
+      setResult(0);
+      return;
+    }
+    // Reverse the number and convert to integer
+    const reversedNumber = parseInt(number.split("").reverse().join(""), 10);
+    const difference = Math.abs(Number(number) - reversedNumber);
+    setResult(difference);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+        Number: <input value={number} onChange={handleInput} />
+        <button onClick={handleSubmit}>Submit</button>
+      </div>
+      <div>Result: {result}</div>
     </div>
   );
 }
-
-export default App;
